@@ -1,77 +1,89 @@
+/** EL2008 Praktikum Pemecahan Masalah dengan Pemrograman 2024/2025
+ *   Modul               : 2 – Data Manipulation and External Files
+ *   Hari dan Tanggal    : Senin 20 April 2026
+ *   Nama (NIM)          : Jonathan Chandra (13224103)
+ *   Nama File           : Soal1.c
+ *   Deskripsi           : Pemulihan Sensor Fragmen
+ * 
+ */
+
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
+
+int nilai_max(int a, int b){
+    if(a>b){
+        return a;
+    }
+    else if(a<=b){
+        return b;
+    }
+}
 
 int main() {
     int N;
+    
+    if (scanf("%d",&N)!=1) {
+        return 0;
+    }
 
-    int nnLeft = -1, nnRight = -1;
+    int *arr = (int*)malloc(N*sizeof(int));
+    if (arr == NULL) {
+        printf("Gagal mengalokasikan memori.\n");
+        return 1;
+    }
 
-    scanf("%d", &N);
-
-    int *arr = malloc(N * sizeof(int));
-
-    for (int i = 0; i < N; i++) {
+    for (int i=0; i<N;++i) {
         scanf("%d", &arr[i]);
     }
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < i; j++) {
-            if (arr[j] != -1) {
-                nnLeft = arr[j];
-            }
-        }
-
-        for (int j = N - 1; j > i; j--) {
-            if (arr[j] != -1) {
-                nnRight = arr[j];
-            }
-        }
-
+    for (int i=0;i<N;++i) {
         if (arr[i] == -1) {
-            if(nnLeft != -1 && nnRight != -1) {
-                arr[i] = floor((nnLeft + nnRight) / 2.0);
-            }
-            else if (nnLeft != -1) {
-                arr[i] = nnLeft;
-            }
-            else if (nnRight != -1) {
-                arr[i] = nnRight;
+            int kiri = 0; 
+            int var_kiri = 0;
+
+            if (i > 0) {
+                kiri = 1;
+                var_kiri = arr[i - 1];
             }
 
-            else {
+            int kanan = 0;
+            int var_kanan = 0;
+
+            for (int j=i+1;j<N;++j) {
+                if (arr[j] != -1) {
+                    kanan = 1;
+                    var_kanan = arr[j];
+                    break;
+                }
+            }
+
+            if(kiri && kanan){
+            arr[i] = floor((var_kiri + var_kanan)/2.0) ;
+            } else if (kiri) {
+                arr[i] = var_kiri;
+            } else if (kanan) {
+                arr[i] = var_kanan;
+            } else {
                 arr[i] = 0;
             }
-        }
-
-        nnLeft = -1;
-        nnRight = -1;
-    }
-
-    int sum = arr[0];
-    int sumCurrent;
-
-    for (int i = 0; i < N; i++) {
-        sumCurrent = arr[i];
-        for (int j = i + 1; j < N; j++) {
-            if (sumCurrent + arr[j] > sumCurrent) {
-                sumCurrent += arr[j];
-            }
-        }
-
-        if (sumCurrent > sum) {
-            sum = sumCurrent;
         }
     }
 
     printf("RECOVERED");
-    for (int i = 0; i < N; i++) {
-        printf(" %d", arr[i]);
+    for(int i=0;i<N;++i){
+        printf(" %d",arr[i]);
+    }
+    printf("\n");
+    
+    int max_sum = arr[0];
+    int sum = arr[0];
+    
+    for (int i=1;i<N;++i){
+        sum= nilai_max((int)arr[i],sum + arr[i]);
+        max_sum = nilai_max(max_sum,sum);        
     }
 
-    printf("\nMAX_SUM %d", sum);
+    printf("MAX_SUM %d",max_sum);
 
-    free(arr);
-
-    return 0;
 }
