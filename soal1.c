@@ -6,8 +6,6 @@ int main() {
 
     int nnLeft = -1, nnRight = -1;
 
-    int sum = 0;
-
     scanf("%d", &N);
 
     int *arr = malloc(N * sizeof(int));
@@ -39,15 +37,29 @@ int main() {
             else if (nnRight != -1) {
                 arr[i] = nnRight;
             }
+
+            else {
+                arr[i] = 0;
+            }
         }
 
         nnLeft = -1;
         nnRight = -1;
     }
 
+    int sum = arr[0];
+    int sumCurrent;
+
     for (int i = 0; i < N; i++) {
-        if (arr[i] != -1) {
-            sum += arr[i];
+        sumCurrent = arr[i];
+        for (int j = i; j < N; j++) {
+            if (sumCurrent + arr[j] > sumCurrent) {
+                sumCurrent += arr[j];
+            }
+        }
+
+        if (sumCurrent > sum) {
+            sum = sumCurrent;
         }
     }
 
