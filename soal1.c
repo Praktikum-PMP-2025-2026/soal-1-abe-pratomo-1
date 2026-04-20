@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 int main() {
     int N;
@@ -29,7 +30,7 @@ int main() {
 
         if (arr[i] == -1) {
             if(nnLeft != -1 && nnRight != -1) {
-                arr[i] = (nnLeft + nnRight) / 2;
+                arr[i] = floor((nnLeft + nnRight) / 2.0);
             }
             else if (nnLeft != -1) {
                 arr[i] = nnLeft;
