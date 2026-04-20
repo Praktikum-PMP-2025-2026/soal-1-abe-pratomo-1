@@ -52,7 +52,7 @@ int main() {
 
     for (int i = 0; i < N; i++) {
         sumCurrent = arr[i];
-        for (int j = i; j < N; j++) {
+        for (int j = i + 1; j < N; j++) {
             if (sumCurrent + arr[j] > sumCurrent) {
                 sumCurrent += arr[j];
             }
